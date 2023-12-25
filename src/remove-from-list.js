@@ -25,7 +25,7 @@ const { NotImplementedError, ListNode } = require('../extensions/index.js');
 function removeKFromList(l, k) {
   let headList = l;
   let nodeList = l;
-  
+
   while (nodeList.next !== null) {
     if (headList.value === k) {
       headList = headList.next;
@@ -45,4 +45,3 @@ function removeKFromList(l, k) {
 module.exports = {
   removeKFromList
 };
-funct
