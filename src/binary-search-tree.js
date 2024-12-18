@@ -52,9 +52,23 @@ class BinarySearchTree {
     return node;
   }
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  remove(data) {
+    let node = this.find(data);
+    let parent = null;
+    while (node) {
+      if (node.right) {
+        node.data = node.right.data;
+        parent = node;
+        node = node.right;
+      } else if (node.left) {
+        node.data = node.left.data;
+      } else {
+        debugger;
+        if (parent.right) parent.right = null;
+        else if (parent.left) parent.left = null;
+        node = null;
+      }
+    }
   }
 
   min() {
@@ -73,19 +87,8 @@ module.exports = {
 };
 
 const binaryTree = new BinarySearchTree();
-console.log(binaryTree.root());
-binaryTree.add(2);
-binaryTree.add(3);
-binaryTree.add(4);
-console.log(binaryTree.root().data === 2);
-binaryTree.add(60);
-binaryTree.add(70);
-binaryTree.add(65);
-console.log(binaryTree.has(70));
-console.log(binaryTree.has(20));
-console.log(binaryTree.has(9));
-console.log(binaryTree.has(60));
-console.log(binaryTree.has(65));
-console.log(binaryTree.has(10));
-console.log(binaryTree.find(10));
+
+const numbers = [10, 6, 15, 4, 7, 14, 17, 16, 18];
+numbers.forEach((num) => binaryTree.add(num));
+binaryTree.remove(15);
 debugger;
