@@ -49,10 +49,13 @@ class BinarySearchTree {
       if (data === node.data) return returnParent ? { parent, node } : node;
       else if (data < node.data) {
         parent = node;
-        node = node.left;
+        if (node.left) node = node.left;
+        else node = node.right;
       } else if (data > node.data) {
         parent = node;
-        node = node.right;
+        // node = node.right;
+        if (node.right) node = node.right;
+        else node = node.left;
       }
     }
     return returnParent ? { parent, node } : node;
@@ -62,38 +65,49 @@ class BinarySearchTree {
     throw new NotImplementedError('Not implemented');
   }
   // remove(data) {
-  //   let { parent, node } = find(data, true);
+  //   const returnParent = true;
+  //   let { parent, node } = this.find(data, returnParent);
   //   // debugger
-  //   // if (node.data === 7) {
-  //   //   debugger;
-  //   // }
-  //   // while (node) {
-  //   //   if (node.right) {
-  //   //     node.data = node.right.data;
-  //   //     parent = node;
-  //   //     node = node.right;
-  //   //   } else if (node.left) {
-  //   //     parent.left.right = node.left;
-  //   //     node.left = null;
-  //   //     // node.data = node.left.data;
-  //   //     // parent = node;
-  //   //     // node = node.left;
-  //   //   } else {
-  //   //     if (parent && parent.right) parent.right = null;
-  //   //     else if (parent && parent.left) parent.left = null;
-  //   //     node = null;
-  //   //   }
-  //   // }
+  //   if (data === this._root.data && !this._root.left && !this._root.right)
+  //     this._root = null;
+  //   else {
+  //     while (node) {
+  //       if (node.right) {
+  //         node.data = node.right.data;
+  //         parent = node;
+  //         node = node.right;
+  //       } else if (node.left) {
+  //         if (parent.left?.right) parent.left.right = node.left;
+  //         else {
+  //           parent.left = { ...node.left };
+  //           parent.right = null;
+  //         }
+  //         node.left = null;
+  //       } else {
+  //         if (parent && parent.right && parent.right.data === node.data)
+  //           parent.right = null;
+  //         else if (parent && parent.left && parent.left.data === node.data)
+  //           parent.left = null;
+  //         node = null;
+  //       }
+  //     }
+  //   }
   // }
 
   min() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    let node = this._root;
+    while (node.left) {
+      node = node.left;
+    }
+    return node.data;
   }
 
   max() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    let node = this._root;
+    while (node.right) {
+      node = node.right;
+    }
+    return node.data;
   }
 }
 
@@ -105,6 +119,6 @@ const binaryTree = new BinarySearchTree();
 
 // const numbers = [10, 6, 15, 4, 7, 14, 17, 16, 18];
 // numbers.forEach((num) => binaryTree.add(num));
+// // binaryTree.remove(18);
 // numbers.forEach((num) => binaryTree.remove(num));
-// // binaryTree.remove(10);
-// debugger;
+// // debugger;
