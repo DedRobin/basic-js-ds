@@ -53,7 +53,6 @@ class BinarySearchTree {
         else node = node.right;
       } else if (data > node.data) {
         parent = node;
-        // node = node.right;
         if (node.right) node = node.right;
         else node = node.left;
       }
@@ -61,49 +60,56 @@ class BinarySearchTree {
     return returnParent ? { parent, node } : node;
   }
 
-  remove(/*data*/) {
-    throw new NotImplementedError('Not implemented');
-  }
-  // remove(data) {
-  //   const returnParent = true;
-  //   let { parent, node } = this.find(data, returnParent);
-  //   // debugger
-  //   if (data === this._root.data && !this._root.left && !this._root.right)
-  //     this._root = null;
-  //   else {
-  //     while (node) {
-  //       if (node.right) {
-  //         node.data = node.right.data;
-  //         parent = node;
-  //         node = node.right;
-  //       } else if (node.left) {
-  //         if (parent.left?.right) parent.left.right = node.left;
-  //         else {
-  //           parent.left = { ...node.left };
-  //           parent.right = null;
-  //         }
-  //         node.left = null;
-  //       } else {
-  //         if (parent && parent.right && parent.right.data === node.data)
-  //           parent.right = null;
-  //         else if (parent && parent.left && parent.left.data === node.data)
-  //           parent.left = null;
-  //         node = null;
-  //       }
-  //     }
-  //   }
+  // remove(/*data*/) {
+  //   throw new NotImplementedError('Not implemented');
   // }
+  remove(data) {
+    const getLeafNumber = (node) =>
+      [node.left, node.right].filter((child) => !!child).length;
 
-  min() {
-    let node = this._root;
+    let { parent, node } = this.find(data, true);
+    if (node) {
+      const length = getLeafNumber(node);
+
+      switch (length) {
+        case 0:
+          if (parent.left === node) parent.left = null;
+          else parent.right = null;
+          break;
+        case 1:
+          if (parent.left === node) parent.left = node?.left || node.right;
+          else parent.right = node?.left || node.right;
+        case 2:
+          const min = this.min(node.right);
+          if (min) {
+            this.remove(min);
+            node.data = min;
+            break;
+          } else {
+            const max = this.max(node.left);
+            if (max) {
+              this.remove(max);
+              node.data = max;
+            }
+          }
+      }
+    }
+  }
+
+  min(subRoot = this._root) {
+    let node = subRoot;
+    if (!node) return null;
+
     while (node.left) {
       node = node.left;
     }
     return node.data;
   }
 
-  max() {
-    let node = this._root;
+  max(subRoot = this._root) {
+    let node = subRoot;
+    if (!node) return null;
+
     while (node.right) {
       node = node.right;
     }
@@ -117,8 +123,10 @@ module.exports = {
 
 const binaryTree = new BinarySearchTree();
 
-// const numbers = [10, 6, 15, 4, 7, 14, 17, 16, 18];
+// const numbers = [31, 20, 49, 15, 22, 39, 58, 32, 40, 50, 61, 34];
 // numbers.forEach((num) => binaryTree.add(num));
-// // binaryTree.remove(18);
+// binaryTree.remove(61);
+// binaryTree.remove(32);
+// binaryTree.remove(49);
 // numbers.forEach((num) => binaryTree.remove(num));
 // // debugger;
