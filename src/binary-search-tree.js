@@ -35,9 +35,9 @@ class BinarySearchTree {
   has(data) {
     let node = this._root;
     while (node) {
-      if (data === node.data) return true;
-      else if (data < node.data) node = node.left;
+      if (data < node.data) node = node.left;
       else if (data > node.data) node = node.right;
+      else return true;
     }
     return false;
   }
@@ -60,9 +60,6 @@ class BinarySearchTree {
     return returnParent ? { parent, node } : node;
   }
 
-  // remove(/*data*/) {
-  //   throw new NotImplementedError('Not implemented');
-  // }
   remove(data) {
     const getLeafNumber = (node) =>
       [node.left, node.right].filter((child) => !!child).length;
@@ -84,7 +81,6 @@ class BinarySearchTree {
           if (min) {
             this.remove(min);
             node.data = min;
-            break;
           } else {
             const max = this.max(node.left);
             if (max) {
@@ -92,6 +88,7 @@ class BinarySearchTree {
               node.data = max;
             }
           }
+          break;
       }
     }
   }
@@ -120,13 +117,3 @@ class BinarySearchTree {
 module.exports = {
   BinarySearchTree,
 };
-
-const binaryTree = new BinarySearchTree();
-
-// const numbers = [31, 20, 49, 15, 22, 39, 58, 32, 40, 50, 61, 34];
-// numbers.forEach((num) => binaryTree.add(num));
-// binaryTree.remove(61);
-// binaryTree.remove(32);
-// binaryTree.remove(49);
-// numbers.forEach((num) => binaryTree.remove(num));
-// // debugger;
